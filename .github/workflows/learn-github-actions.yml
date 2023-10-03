@@ -18,5 +18,8 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Run script
+        id: run_script
         run: python hello_world.py
+      - name: Echo output
+        run: echo ${{ steps.run_script.outputs}}
 
