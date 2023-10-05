@@ -7,6 +7,9 @@ on:
 #      PUSH_IMAGE:
 #        required: false
 #        type: boolean
+  push:
+    tags:
+      - 'v*.*.*-rc*'
 
 jobs:
   build:
@@ -19,10 +22,15 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Extract tag name
+      id: extract_tag
+      run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
     - name: Build and tag docker image
       uses: docker/build-push-action@v5
       with:
         context: .
-        push:  false
+        push:  true
+        tags:  janeliutw/learn-github-actions:${{ steps.extract_tag.outputs.tag }}
 #        tags: ${{ steps.meta.outputs.tags }}
 #        labels: ${{ steps.meta.outputs.labels }}
