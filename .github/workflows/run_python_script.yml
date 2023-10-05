@@ -1,0 +1,25 @@
+name: Python Script Workflow
+
+on:
+  workflow_call:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4 # Checkout the repository content to github runner.
+
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Run script
+        run: python hello_world.py
+
+

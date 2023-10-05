@@ -1,0 +1,28 @@
+---
+name: Build docker image
+on:
+  workflow_call:
+#    https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callinputs
+#    inputs:
+#      PUSH_IMAGE:
+#        required: false
+#        type: boolean
+
+jobs:
+  build:
+    name: Build image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and tag docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push:  false
+#        tags: ${{ steps.meta.outputs.tags }}
+#        labels: ${{ steps.meta.outputs.labels }}
