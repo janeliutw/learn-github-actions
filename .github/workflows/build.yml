@@ -32,21 +32,38 @@ jobs:
 #        username: ${{ secrets.DOCKERHUB_USERNAME }}
 #        password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Extract tag name
-      id: extract_tag
-      run: |      
-        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-          echo "TAG=latest" >> "$GITHUB_OUTPUT"
-        else
-          echo "TAG=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
-        fi
+#    - name: Extract tag name
+#      id: extract_tag
+#      run: |
+#        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+#          echo "TAG=latest" >> "$GITHUB_OUTPUT"
+#        else
+#          echo "TAG=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+#        fi
+#
+#    - name: Get tag name
+#      run: echo "The tag is ${{ steps.extract_tag.outputs.TAG }}"
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: janeliutw/learn-github-actions
+        tags: |
+          type=ref,event=branch
+          type=ref,event=tag
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}
 
     - name: Get tag name
-      run: echo "The tag is ${{ steps.extract_tag.outputs.TAG }}"
+      run: echo "The tag is ${{ steps.meta.outputs.tags }}"
 
     - name: Build and tag docker image
       uses: docker/build-push-action@v5
       with:
         context: .
         push:  false
-        tags:  janeliutw/learn-github-actions:${{ steps.extract_tag.outputs.TAG }}
+#        tags:  janeliutw/learn-github-actions:${{ steps.extract_tag.outputs.TAG }}
+        tags:  ${{ steps.meta.outputs.tags }}
+
