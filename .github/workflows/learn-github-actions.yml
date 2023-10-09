@@ -10,8 +10,8 @@ on:
 jobs:
   run:
     uses: ./.github/workflows/run_python_script.yml
-  build:
-    needs: [ run ]
-    uses: ./.github/workflows/build.yml
+#  build:
+#    needs: [ run ]
+#    uses: ./.github/workflows/build.yml
 #    with:
 #      PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' }}
