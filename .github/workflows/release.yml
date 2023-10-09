@@ -1,5 +1,5 @@
 #---
-#name: Build for prod release
+#name: Build for release
 #on:
 #  push:
 #    tags:
