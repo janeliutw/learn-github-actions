@@ -7,9 +7,6 @@ on:
 #      PUSH_IMAGE:
 #        required: false
 #        type: boolean
-  push:
-    tags:
-      - 'v*.*.*'
 
 jobs:
   build:
