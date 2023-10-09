@@ -56,6 +56,9 @@ jobs:
     - name: Get tag name
       run: echo "The tag is ${{ steps.meta.outputs.tags }}"
 
+    - name: Should push image
+      run: echo "Should push image? ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') ]]"
+
     - name: Build and tag docker image
       uses: docker/build-push-action@v5
       with:
